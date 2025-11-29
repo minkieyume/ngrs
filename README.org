@@ -1,0 +1,4 @@
+#+TITLE: README
+
+* Discusstion
+Ngrs is a guile bindings for rust.
