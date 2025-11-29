@@ -5,7 +5,7 @@ edition = "2024"
 authors = ["MinkieYume <minkieyume@yumieko.com>"]
 description = "Safe bindings to GNU Guile."
 repository = "https://github.com/minkieyume/ngrs"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [dependencies]
