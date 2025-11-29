@@ -6,6 +6,8 @@ authors = ["MinkieYume <minkieyume@yumieko.com>"]
 description = "Safe bindings to GNU Guile."
 repository = "https://github.com/minkieyume/ngrs"
 license = "MIT OR Apache-2.0"
-edition = "2021"
+
+members = ["guile-sys", "guile"]
+resolver = "2"
 
 [dependencies]
