@@ -8,10 +8,4 @@ repository = "https://github.com/minkieyume/ngrs"
 license = "MIT"
 edition = "2021"
 
-[features]
-dynamic = ["guile-sys/dynamic"]
-
-[lib]
-crate-type = ["rlib","cdylib"]
-
 [dependencies]
