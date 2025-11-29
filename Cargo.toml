@@ -1,0 +1,17 @@
+[package]
+name = "ngrs"
+version = "0.1.0"
+edition = "2024"
+authors = ["MinkieYume <minkieyume@yumieko.com>"]
+description = "Safe bindings to GNU Guile."
+repository = "https://github.com/minkieyume/ngrs"
+license = "MIT"
+edition = "2021"
+
+[features]
+dynamic = ["guile-sys/dynamic"]
+
+[lib]
+crate-type = ["rlib","cdylib"]
+
+[dependencies]
