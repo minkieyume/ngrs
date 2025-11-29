@@ -7,6 +7,10 @@ description = "Safe bindings to GNU Guile."
 repository = "https://github.com/minkieyume/ngrs"
 license = "MIT OR Apache-2.0"
 
+[lib]
+name = "raw_guile"
+path = "src/lib.rs"
+
 [build-dependencies]
-bindgen = "0.70"
+bindgen = "0.72.1"
 pkg-config = "0.3"

@@ -7,4 +7,9 @@ description = "Safe bindings to GNU Guile."
 repository = "https://github.com/minkieyume/ngrs"
 license = "MIT OR Apache-2.0"
 
+[lib]
+name = "guile"
+path = "src/lib.rs"
+
 [dependencies]
+raw-guile = { path = "raw-guile" }

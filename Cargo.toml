@@ -11,4 +11,10 @@ license = "MIT OR Apache-2.0"
 members = ["raw-guile", "guile"]
 resolver = "2"
 
+[lib]
+name = "ngrs"
+path = "src/lib.rs"
+
 [dependencies]
+guile = { path = "guile" }
+raw-guile = { path = "raw-guile" }

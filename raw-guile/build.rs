@@ -28,6 +28,8 @@ fn main() {
     }
 
     let bindings = builder
+        .use_core()  // 使用 core 而非 std
+        .generate_block(true)  // ← 添加这行！生成 unsafe extern 块
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Unable to generate bindings");
