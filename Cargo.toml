@@ -7,7 +7,7 @@ description = "Safe bindings to GNU Guile."
 repository = "https://github.com/minkieyume/ngrs"
 license = "MIT OR Apache-2.0"
 
-members = ["guile-sys", "guile"]
+members = ["raw-guile", "guile"]
 resolver = "2"
 
 [dependencies]
