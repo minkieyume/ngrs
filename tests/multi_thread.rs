@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
-
-use guile::*;
+use nguile::*;
 use std::sync::Once;
 
 static INIT: Once = Once::new();

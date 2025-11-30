@@ -13,7 +13,7 @@ keywords = ["guile", "scheme", "ffi", "scripting", "lisp"]
 categories = ["api-bindings", "development-tools::ffi"]
 
 [workspace]
-members = ["raw-guile", "guile"]
+members = ["raw-guile", "nguile"]
 resolver = "2"
 
 [lib]
@@ -21,7 +21,7 @@ name = "ngrs"
 path = "src/lib.rs"
 
 [dependencies]
-guile = { path = "guile", version="0.1.0" }
+nguile = { path = "nguile", version="0.1.0" }
 raw-guile = { path = "raw-guile" , version="0.1.0" }
 ctor = "0.2"
 

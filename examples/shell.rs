@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
-use ngrs::guile::*;
+use ngrs::nguile::*;
 
 pub fn main() {    
     with_guile(|vm| {
