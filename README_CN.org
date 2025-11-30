@@ -5,15 +5,13 @@ NGRS 是 GNU Guile Scheme 的新 Rust 绑定。
 * 概述
 `ngrs` 提供了底层原始绑定和高级安全抽象，用于在 Rust 应用程序中嵌入 GNU Guile Scheme。本项目专注于内存安全和符合人体工程学的 API，实现 Scheme 脚本能力与 Rust 程序的无缝集成。
 * 项目结构
-该项目组织为 Cargo 工作空间，包含以下模块：
-- **raw-guile** - Guile C API 的底层 FFI 绑定
-- **guile** - 具有惯用接口的高级安全 Rust 封装
-- **根 crate** - 重导出两个模块以便访问
+- **ngrs** - 具有惯用接口的高级安全 Rust 封装，包含 *raw* 。
+- **raw** - Guile C API 的底层 FFI 绑定
 * 特性
 - 为基础值提供绑定和转换。
 * 快速开始
 #+begin_src rust
-use ngrs::guile::{Runtime, with_guile};
+use ngrs::{Runtime, with_guile};
 fn main() {
     // 初始化 Guile
     Runtime::initialize();
@@ -29,7 +27,7 @@ fn main() {
 ** 初始化
 在使用任何 Guile 功能之前，必须先初始化 Guile 环境：
 #+begin_src rust
-use ngrs::guile::Runtime
+use ngrs::Runtime
 fn main() {
     // 初始化 Guile
     Runtime::initialize();
@@ -39,7 +37,7 @@ fn main() {
 *** 使用 `init` 方式
 这种方式的平台支持较少。
 #+begin_src rust
-use ngrs::guile::Runtime;
+use ngrs::Runtime;
 fn main() {
     Runtime::initialize();
     let runtime = Runtime::new();
@@ -49,7 +47,7 @@ fn main() {
 *** 使用 `with_guile` 方式
 如需更好地控制 Guile 上下文：
 #+begin_src rust
-use ngrs::guile::with_guile;
+use ngrs::with_guile;
 fn main() {
     Runtime::initialize();
     with_guile(|vm:Runtime| {
