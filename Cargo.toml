@@ -18,3 +18,7 @@ path = "src/lib.rs"
 [dependencies]
 guile = { path = "guile" }
 raw-guile = { path = "raw-guile" }
+
+[[example]]
+name = "shell"
+path = "examples/shell.rs"

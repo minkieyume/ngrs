@@ -78,6 +78,9 @@ checksum = "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
 [[package]]
 name = "guile"
 version = "0.1.0"
+dependencies = [
+ "raw-guile",
+]
 
 [[package]]
 name = "itertools"
@@ -125,6 +128,10 @@ checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
 [[package]]
 name = "ngrs"
 version = "0.1.0"
+dependencies = [
+ "guile",
+ "raw-guile",
+]
 
 [[package]]
 name = "nom"
