@@ -14,6 +14,7 @@ The project is organized as a Cargo workspace with the following modules:
 - **Root crate** - Re-exports both modules for convenient access
 
 * Features
+- Make bindings and convert for base values.
 
 * Quick Start
 #+begin_src rust

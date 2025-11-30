@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT OR Apache-2.0
+// SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
 use raw_guile;
 use std::ffi::c_void;
 use crate::Runtime;
