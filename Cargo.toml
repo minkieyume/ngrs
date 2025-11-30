@@ -18,6 +18,19 @@ path = "src/lib.rs"
 [dependencies]
 guile = { path = "guile" }
 raw-guile = { path = "raw-guile" }
+ctor = "0.2"
+
+[[test]]
+name = "multi_thread"
+path = "tests/multi_thread.rs"
+
+[[test]]
+name = "initialize"
+path = "tests/initialize.rs"
+
+[[test]]
+name = "eval"
+path = "tests/eval.rs"
 
 [[example]]
 name = "shell"

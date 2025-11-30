@@ -10,6 +10,7 @@
 	 (specifications->packages
 	  '(
 	    "coreutils"
+	    "gdb"
 	    "gcc-toolchain"
 	    "binutils"
 	    "pkg-config"
