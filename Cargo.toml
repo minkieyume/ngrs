@@ -12,18 +12,17 @@ documentation = "https://docs.rs/ngrs"
 keywords = ["guile", "scheme", "ffi", "scripting", "lisp"]
 categories = ["api-bindings", "development-tools::ffi"]
 
-[workspace]
-members = ["raw-guile", "nguile"]
-resolver = "2"
-
 [lib]
 name = "ngrs"
 path = "src/lib.rs"
 
 [dependencies]
-nguile = { path = "nguile", version="0.1.0" }
-raw-guile = { path = "raw-guile" , version="0.1.0" }
 ctor = "0.2"
+
+[build-dependencies]
+bindgen = "0.72.1"
+pkg-config = "0.3"
+
 
 [[test]]
 name = "multi_thread"

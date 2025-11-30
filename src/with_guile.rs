@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
-use raw_guile;
+use crate::raw;
 use std::ffi::c_void;
 use crate::Runtime;
 
@@ -15,6 +15,7 @@ struct WithGuileData<F, R> {
 ///
 /// Useage:
 /// ```
+/// use ngrs::with_guile;
 /// with_guile(|vm| {
 ///    vm.shell(vec!["test".to_string()]);
 /// });
@@ -29,7 +30,7 @@ where
     };
 
     unsafe {
-        raw_guile::scm_with_guile(
+        raw::scm_with_guile(
             Some(with_guile_callback::<F, R>),
             &mut data as *mut _ as *mut c_void,
         );
@@ -85,7 +86,7 @@ where
         result: None,
     };
     unsafe {
-        raw_guile::scm_without_guile(
+        raw::scm_without_guile(
             Some(without_guile_callback::<F, R>),
             &mut data as *mut _ as *mut c_void,
         );

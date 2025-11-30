@@ -132,16 +132,9 @@ checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
 name = "ngrs"
 version = "0.1.0"
 dependencies = [
+ "bindgen",
  "ctor",
- "nguile",
- "raw-guile",
-]
-
-[[package]]
-name = "nguile"
-version = "0.1.0"
-dependencies = [
- "raw-guile",
+ "pkg-config",
 ]
 
 [[package]]
@@ -186,14 +179,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a338cc41d27e6cc6dce6cefc13a0729dfbb81c262b1f519331575dd80ef3067f"
 dependencies = [
  "proc-macro2",
-]
-
-[[package]]
-name = "raw-guile"
-version = "0.1.0"
-dependencies = [
- "bindgen",
- "pkg-config",
 ]
 
 [[package]]

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
-use raw_guile;
+use crate::raw;
 use std::sync::OnceLock;
 use std::ffi::{CString, c_char};
 use crate::with_guile::with_guile;
@@ -28,12 +28,13 @@ impl Runtime {
     ///
     /// Usage:
     /// ```
+    /// use ngrs::Runtime;
     /// let runtime = Runtime::new();
     /// runtime.shell(vec!["test".to_string()]);
     /// ```
     pub fn new() -> Self {
         unsafe {
-            raw_guile::scm_init_guile();
+            raw::scm_init_guile();
         };
         
         Runtime {}
@@ -51,7 +52,7 @@ impl Runtime {
             .collect();
     
         unsafe {
-            raw_guile::scm_shell(c_args.len() as i32, ptrs.as_mut_ptr());
+            raw::scm_shell(c_args.len() as i32, ptrs.as_mut_ptr());
         }
     }
 
@@ -59,7 +60,7 @@ impl Runtime {
         let c_code = CString::new(code).expect("Failed to create CString");
         let c_code_ptr = c_code.as_ptr();
         unsafe {
-            let raw_scm = raw_guile::scm_c_eval_string(c_code_ptr);
+            let raw_scm = raw::scm_c_eval_string(c_code_ptr);
             SCM::new(raw_scm)
         }
     }    
