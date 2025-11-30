@@ -1,5 +1,5 @@
 #+TITLE: README
-| English | [[README_CN.org][中文]] |
+| English | [[./README_CN.org][中文]] |
 * Discription
 NGRS is a New Rust bindings for GNU Guile Scheme.
 
