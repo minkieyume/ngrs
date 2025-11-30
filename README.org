@@ -14,6 +14,14 @@ NGRS is a New Rust bindings for GNU Guile Scheme.
 - Make bindings and convert for base values.
 
 * Quick Start
+** Use Ngrs
+Add this to your *Cargo.toml* .
+#+begin_src toml
+[dependencies]
+ngrs = "0.1"
+#+end_src
+
+** Example
 #+begin_src rust
 use ngrs::{Runtime, with_guile};
 

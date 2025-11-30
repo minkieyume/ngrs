@@ -7,9 +7,17 @@ NGRS 是 GNU Guile Scheme 的新 Rust 绑定。
 * 项目结构
 - **ngrs** - 具有惯用接口的高级安全 Rust 封装，包含 *raw* 。
 - **raw** - Guile C API 的底层 FFI 绑定
-* 特性
+* 待办
 - 为基础值提供绑定和转换。
 * 快速开始
+** 使用Ngrs
+将这个添加到你的 *Cargo.toml* 文件中。
+#+begin_src toml
+[dependencies]
+ngrs = "0.1"
+#+end_src
+
+** 例子
 #+begin_src rust
 use ngrs::{Runtime, with_guile};
 fn main() {
