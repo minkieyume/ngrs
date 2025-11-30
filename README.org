@@ -7,18 +7,15 @@ NGRS is a New Rust bindings for GNU Guile Scheme.
 `ngrs` provides both low-level raw bindings and high-level safe abstractions for embedding GNU Guile Scheme in Rust applications. This project enables seamless integration of Scheme scripting capabilities into Rust programs with a focus on memory safety and ergonomic APIs.
 
 * Project Structure
-The project is organized as a Cargo workspace with the following modules:
-
-- **raw-guile** - Low-level FFI bindings to Guile's C API
-- **guile** - High-level safe Rust wrappers with idiomatic interfaces
-- **Root crate** - Re-exports both modules for convenient access
+- **ngrs** - High-level safe Rust wrappers with idiomatic interfaces, Contains *raw*.
+- **raw** - Low-level FFI bindings to Guile's C API
 
 * Features
 - Make bindings and convert for base values.
 
 * Quick Start
 #+begin_src rust
-use ngrs::nguile::{Runtime, with_guile};
+use ngrs::{Runtime, with_guile};
 
 fn main() {
     // Initialize Guile
@@ -37,7 +34,7 @@ fn main() {
 Before using any Guile functionality, you must initialize the Guile environment:
 
 #+begin_src rust
-use ngrs::nguile::Runtime
+use ngrs::Runtime
 
 fn main() {
     // Initialize Guile
@@ -50,7 +47,7 @@ fn main() {
 *** Using with `init`
 This way has Less platforms support.
 #+begin_src rust
-use ngrs::guile::Runtime;
+use ngrs::Runtime;
 
 fn main() {
     Runtime::initialize();
@@ -63,7 +60,7 @@ fn main() {
 *** Using with `with_guile`
 For more control over the Guile context:
 #+begin_src rust
-use ngrs::nguile::with_guile;
+use ngrs::with_guile;
 
 fn main() {
     Runtime::initialize();
