@@ -63,5 +63,5 @@ impl Runtime {
             let raw_scm = raw::scm_c_eval_string(c_code_ptr);
             SCM::new(raw_scm)
         }
-    }    
+    }
 }

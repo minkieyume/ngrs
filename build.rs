@@ -9,31 +9,43 @@ fn main() {
         .probe("guile-3.0")
         .expect("Guile not found");
 
-    // 从 include 路径中找 libguile.h
-    let header = guile.include_paths
-        .iter()
-        .find_map(|path| {
-            let candidate = path.join("libguile.h");
-            if candidate.exists() {
-                Some(candidate)
-            } else {
-                None
-            }
-        })
-        .expect("Cannot find libguile.h in include paths");
+    println!("cargo:warning=Guile include paths:");
+    for path in &guile.include_paths {
+        println!("cargo:warning=  {}", path.display());
+    }
 
+    // === 1. 编译 wrapper.c（cc 需要知道路径）===
+    let mut build = cc::Build::new();
+    build.file("src/wrappers/wrapper.c");
+    
+    // 给 C 编译器添加 include 路径
+    for path in &guile.include_paths {
+        build.include(path);  // ← wrapper.c 里的 #include <libguile.h> 靠这个找到
+    }
+
+    build.compile("guile_wrapper");
+
+    // === 2. bindgen 生成绑定（clang 也需要知道路径）===
+    let clang_args: Vec<String> = guile.include_paths
+        .iter()
+        .map(|p| format!("-I{}", p.display()))
+        .collect();
+
+    
     // 构建 bindgen，添加所有 include 路径
     let mut builder = bindgen::Builder::default()
-        .header(header.to_str().unwrap());
+        .header("src/wrappers/wrapper.h")
+        .clang_args(&clang_args);
 
     for include in &guile.include_paths {
         builder = builder.clang_arg(format!("-I{}", include.display()));
     }
 
     let bindings = builder
-        .use_core()  // 使用 core 而非 std
-        .generate_block(true)  // ← 添加这行！生成 unsafe extern 块
+        .use_core()
+        .generate_block(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
+        .generate_inline_functions(true)
         .generate()
         .expect("Unable to generate bindings");
 
