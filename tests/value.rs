@@ -120,27 +120,27 @@ fn can_condition_bool_true() {
     });
 }
 
-// #[test]
-// fn can_convert_bool() {
-//     with_guile(|_| {
-//         assert_eq!(SCM::from(true).try_into(), Ok(true));
-//         assert_eq!(SCM::from(false).try_into(), Ok(false));
-//     });
-// }
+#[test]
+fn can_convert_bool() {
+    with_guile(|_| {
+        assert_eq!(SCM::from(true).try_into(), Ok(true));
+        assert_eq!(SCM::from(false).try_into(), Ok(false));
+    });
+}
 
-// #[test]
-// fn can_convert_char() {
-//     with_guile(|_| {
-//         let a = char::from('a');
-//         assert_eq!(SCM::from(a.clone()).try_into(), Ok(a));
-//     });
-// }
+#[test]
+fn can_convert_char() {
+    with_guile(|_| {
+        let a = char::from('a');
+        assert_eq!(SCM::from(a.clone()).try_into(), Ok(a));
+    });
+}
 
-// #[test]
-// fn can_convert_char_utf8() {
-//     with_guile(|_| {
-//         let a = char::from('中');
-//         assert_eq!(SCM::from(a.clone()).try_into(), Ok(a));
-//     });
-// }
+#[test]
+fn can_convert_char_utf8() {
+    with_guile(|_| {
+        let a = char::from('中');
+        assert_eq!(SCM::from(a.clone()).try_into(), Ok(a));
+    });
+}
 

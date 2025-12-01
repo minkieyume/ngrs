@@ -40,21 +40,23 @@ impl TryFrom<SCM> for String {
 
 impl From<char> for SCM {
     fn from(value: char) -> SCM {
-        let scm = unsafe { raw::scm_from_wchar(value as i32) };
+        let scm = unsafe { raw::scm_integer_to_char(SCM::from(value as u32).0) };
         SCM::new(scm)
     }
 }
 
-// impl TryFrom<SCM> for char {
-//     type Error = String;
+impl TryFrom<SCM> for char {
+    type Error = String;
     
-//     fn try_from(scm: SCM) -> Result<Self, Self::Error> {
-//         if unsafe { raw::scm_is_integer(scm.0) } != 0 {
-//             let c32:u32 = scm.try_into().unwrap();
-//             let character = char::from_u32(c32).ok_or("Invalid char value".to_string())?;
-//             Ok(character)
-//         } else {
-//             Err("Expected Valid Char".to_string())
-//         }
-//     }
-// }
+    fn try_from(scm: SCM) -> Result<Self, Self::Error> {
+        let char_p = SCM::new(unsafe { raw::scm_char_p(scm.0) });
+        if char_p.is_true() {
+            let scm_int = SCM::new(unsafe { raw::scm_char_to_integer(scm.0) });
+            let code_point = u32::try_from(scm_int)?;
+            char::from_u32(code_point)
+                .ok_or_else(|| "Invalid Unicode code point".to_string())
+        } else {
+            Err("Expected Valid Char".to_string())
+        }
+    }
+}
