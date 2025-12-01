@@ -1,0 +1,6 @@
+#+TITLE:ChangeLog
+* 0.1.2
+- 完成了基础类型(number、string、bool、char)的转换。
+  Finished convert for base types (ops. number、string、bool、char).
+- 重构build.rs代码，添加wrapper.c和wrapper.h方便绑定函数。
+  Rebuiled build.rs codes, And added wrapper.c and wrapper.h let it easy to binding functions.
