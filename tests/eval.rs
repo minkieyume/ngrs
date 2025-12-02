@@ -2,6 +2,8 @@
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
 use ngrs::*;
 use std::sync::Once;
+use std::env;
+use std::path::PathBuf;
 
 static INIT: Once = Once::new();
 
@@ -33,3 +35,30 @@ fn can_eval_get_value() {
         println!("Evaluated value: {:?}", value);
     });
 }
+
+#[test]
+fn can_eval_and_get_number() {
+    with_guile(|vm| {
+        let value:i32 = vm.eval_string("(+ 1 2 3)").try_into().unwrap();
+        assert_eq!(value, 6);
+    });
+}
+
+#[test]
+fn can_eval_and_get_string() {
+    with_guile(|vm| {
+        let value:String = vm.eval_string("(string-append \"kkp\" \"PPL\")").try_into().unwrap();
+        assert_eq!(value, "kkpPPL");
+    });
+}
+
+// #[test]
+// fn can_load_file() {    
+//     with_guile(|vm| {
+//         let current_dir:PathBuf = env::current_dir().unwrap();
+//         let path = current_dir.join("scm/test-loadfile.scm");
+//         let filename = path.to_str().unwrap();
+//         let scm = vm.primitive_load(filename);        
+//         // assert_eq!(value, "6");
+//     });
+// }

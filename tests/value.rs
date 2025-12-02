@@ -144,3 +144,50 @@ fn can_convert_char_utf8() {
     });
 }
 
+#[test]
+fn can_convert_object_to_string() {
+    with_guile(|_| {
+        let scm = SCM::from(42_i32);
+        assert!(scm.to_string().contains("42"));
+    });
+}
+
+#[test]
+fn can_reconize_common_types() {
+    with_guile(|_| {
+        let scm_str = SCM::from(String::from("Hello"));
+        assert!(scm_str.is_string());
+        assert!(scm_str.is_true());
+        assert!(scm_str.is_array());
+        
+        assert!(!scm_str.is_number());
+        assert!(!scm_str.is_bool());
+        assert!(!scm_str.is_char());
+        assert!(!scm_str.is_integer());
+        assert!(!scm_str.is_real());
+        assert!(!scm_str.is_rational());
+        assert!(!scm_str.is_complex());
+        assert!(!scm_str.is_false());
+        assert!(!scm_str.is_null());
+        assert!(!scm_str.is_pair());
+        assert!(!scm_str.is_symbol());
+        assert!(!scm_str.is_keyword());
+        assert!(!scm_str.is_vector());
+        assert!(!scm_str.is_bytevector());
+        assert!(!scm_str.is_procedure());
+        assert!(!scm_str.is_thunk());
+        assert!(!scm_str.is_variable());
+    });
+}
+
+#[test]
+fn can_reconize_extract_numbers() {
+    with_guile(|_| {
+        let scm_str = SCM::from(i32::MAX);
+        assert!(scm_str.is_number());
+        assert!(scm_str.is_integer());
+        assert!(scm_str.is_exact());
+        assert!(scm_str.is_exact_integer());
+        assert!(!scm_str.is_inexact());
+    });
+}

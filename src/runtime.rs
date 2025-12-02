@@ -64,4 +64,22 @@ impl Runtime {
             SCM::new(raw_scm)
         }
     }
+
+    pub fn primitive_load(&self, filename: &str) -> SCM {
+        let c_filename = CString::new(filename).expect("Failed to create CString");
+        let c_filename_ptr = c_filename.as_ptr();
+        unsafe {
+            let value = raw::scm_c_primitive_load(c_filename_ptr);
+            SCM::new(value)
+        }
+    }
+
+    pub fn primitive_load_path(&self, filename: &str) -> SCM {
+        let c_filename = CString::new(filename).expect("Failed to create CString");
+        let c_filename_ptr = c_filename.as_ptr();
+        unsafe {
+            let value = raw::scm_c_primitive_load_path(c_filename_ptr);
+            SCM::new(value)
+        }
+    }
 }

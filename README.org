@@ -14,6 +14,7 @@ NGRS is a New Rust bindings for GNU Guile Scheme.
 -  Make bindings and convert for base values.
 - Implement eval(eval_expr), eval_string, eval_file(load), apply(apply_scm), apply(call_0~n), define
 - Create safe type wrappers for composite values List, Vector, HashMap and special base values procedure, Symbol, Keywords (or at least provide a method to convert them to Rust types)
+- Add module operations to facilitate writing interactive modules for Guile in Rust.
 - Write bindings to convert Rust structs into Guile foreign types
 
 * Quick Start
