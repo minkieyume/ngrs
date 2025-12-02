@@ -3,17 +3,17 @@
 pub mod number;
 pub mod str;
 pub mod bool;
+pub mod complex_types;
 
 use crate::raw;
+
+pub use crate::complex_types::*;
 
 #[derive(Debug, Clone)]
 pub struct SCM (pub raw::SCM);
 
 impl SCM {
     pub fn new(scm: raw::SCM) -> Self {
-        unsafe {
-            raw::scm_gc_protect_object(scm);
-        }
         SCM(scm)
     }
 
@@ -23,6 +23,8 @@ impl SCM {
         SCM::new(scm)
     }
 
+    /// Only call this function when you are sure that the SCM is a variable type.
+    /// 仅在你确定 SCM 是一个variable类型时调用此函数。
     pub fn var_to_val(&self) -> Self {
         assert!(self.is_variable(), "SCM value is not variable");
         let scm_val = unsafe { raw::scm_variable_ref(self.0) };
@@ -89,12 +91,20 @@ impl SCM {
         unsafe { raw::scm_is_inexact(self.0) != 0 }
     }
 
+    /// Convert an inexact number SCM to an exact number SCM.
+    /// 将一个非精确数字 SCM 转换为一个精确数字 SCM。
+    /// Only call this function when you are sure that the SCM is an inexact number.
+    /// 仅在你确定 SCM 是一个非精确数字时调用此函数。
     pub fn inexact_to_exact(&self) -> SCM {
         assert!(self.is_inexact(), "SCM value is not inexact number");
         let scm = unsafe { raw::scm_inexact_to_exact(self.0) };
         SCM::new(scm)
     }
 
+    /// Convert an exact number SCM to an inexact number SCM.
+    /// 将一个精确数字 SCM 转换为一个非精确数字 SCM。
+    /// Only call this function when you are sure that the SCM is an exact number.
+    /// 仅在你确定 SCM 是一个精确数字时调用此函数。
     pub fn exact_to_inexact(&self) -> SCM {
         assert!(self.is_exact(), "SCM value is not exact number");
         let scm = unsafe { raw::scm_exact_to_inexact(self.0) };
@@ -117,9 +127,49 @@ impl SCM {
     pub fn is_symbol(&self) -> bool {
         unsafe { raw::ngrs_is_symbol(self.0) != 0 }
     }
+    
+    /// Convert a string SCM to a symbol SCM.
+    /// 将一个字符串 SCM 转换为一个符号 SCM。
+    /// Only call this function when you are sure that the SCM is a string.
+    /// 仅在你确定 SCM 是一个字符串时调用此函数。
+    pub fn string_to_symbol(&self) -> SCM {
+        assert!(self.is_string(), "SCM value is not string");
+        let scm = unsafe { raw::scm_string_to_symbol(self.0) };
+        SCM::new(scm)
+    }
+
+    /// Convert a symbol SCM to a string SCM.
+    /// 将一个符号 SCM 转换为一个字符串 SCM。
+    /// Only call this function when you are sure that the SCM is a symbol.
+    /// 仅在你确定 SCM 是一个符号时调用此函数。
+    pub fn symbol_to_string(&self) -> SCM {
+        assert!(self.is_symbol(), "SCM value is not symbol");
+        let scm = unsafe { raw::scm_symbol_to_string(self.0) };
+        SCM::new(scm)
+    }
 
     pub fn is_keyword(&self) -> bool {
         unsafe { raw::scm_is_keyword(self.0) != 0 }
+    }
+
+    /// Convert a symbol SCM to a keyword SCM.
+    /// 将一个符号 SCM 转换为一个关键字 SCM。
+    /// Only call this function when you are sure that the SCM is a symbol.
+    /// 仅在你确定 SCM 是一个符号时调用此函数。
+    pub fn symbol_to_keyword(&self) -> SCM {
+        assert!(self.is_symbol(), "SCM value is not symbol");
+        let scm = unsafe { raw::scm_symbol_to_keyword(self.0) };
+        SCM::new(scm)
+    }
+
+    /// Convert a keyword SCM to a symbol SCM.
+    /// 将一个关键字 SCM 转换为一个符号 SCM。
+    /// Only call this function when you are sure that the SCM is a keyword.
+    /// 仅在你确定 SCM 是一个关键字时调用此函数。
+    pub fn keyword_to_symbol(&self) -> SCM {
+        assert!(self.is_keyword(), "SCM value is not keyword");
+        let scm = unsafe { raw::scm_keyword_to_symbol(self.0) };
+        SCM::new(scm)
     }
 
     pub fn is_pair(&self) -> bool {
@@ -155,14 +205,6 @@ impl SCM {
     pub fn is_variable(&self) -> bool {
         let variable_p = SCM::new(unsafe { raw::scm_variable_p(self.0) });
         variable_p.is_true()
-    }
-}
-
-impl Drop for SCM {
-    fn drop(&mut self) {
-        unsafe {
-            raw::scm_gc_unprotect_object(self.0);
-        }
     }
 }
 

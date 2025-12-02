@@ -191,3 +191,25 @@ fn can_reconize_extract_numbers() {
         assert!(!scm_str.is_inexact());
     });
 }
+
+#[test]
+fn can_convert_pair() {
+    with_guile(|_| {
+        let scm_pair = SCM::from(Pair::new(SCM::from(1), SCM::from(2)));
+        assert!(scm_pair.is_pair());
+    });
+}
+
+#[test]
+fn can_convert_scm_to_pair() {
+    with_guile(|_| {
+        let scm_pair = SCM::from(Pair::new(SCM::from(1), SCM::from(2)));
+        let pair: Pair = scm_pair.try_into().unwrap();
+        let first_scm:SCM = pair.car().unwrap_scm();
+        let second_scm:SCM = pair.cdr().unwrap_scm();
+        let first:i32 = first_scm.try_into().unwrap();
+        let second:i32 = second_scm.try_into().unwrap();
+        assert_eq!(first, 1);
+        assert_eq!(second, 2);
+    });
+}
