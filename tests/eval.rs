@@ -52,13 +52,13 @@ fn can_eval_and_get_string() {
     });
 }
 
-// #[test]
-// fn can_load_file() {    
-//     with_guile(|vm| {
-//         let current_dir:PathBuf = env::current_dir().unwrap();
-//         let path = current_dir.join("scm/test-loadfile.scm");
-//         let filename = path.to_str().unwrap();
-//         let scm = vm.primitive_load(filename);        
-//         // assert_eq!(value, "6");
-//     });
-// }
+#[test]
+fn can_load_file() {    
+    with_guile(|vm| {
+        let current_dir:PathBuf = env::current_dir().unwrap();
+        let path = current_dir.join("scm/test-loadfile.scm");
+        let filename = path.to_str().unwrap();
+        let scm = vm.primitive_load(filename);
+        assert_eq!(scm.to_string(), "6");
+    });
+}
