@@ -7,7 +7,7 @@ pub mod bool;
 use crate::raw;
 
 #[derive(Debug, Clone)]
-pub struct SCM (raw::SCM);
+pub struct SCM (pub raw::SCM);
 
 impl SCM {
     pub fn new(scm: raw::SCM) -> Self {
@@ -15,7 +15,7 @@ impl SCM {
             raw::scm_gc_protect_object(scm);
         }
         SCM(scm)
-    }    
+    }
 
     pub fn lookup_var(cha:&str) -> Self {
         let c_str = std::ffi::CString::new(cha).expect("Failed to create CString");
@@ -32,6 +32,20 @@ impl SCM {
     pub fn from_var_name(cha:&str) -> Self {
         let scm = SCM::lookup_var(cha);
         scm.var_to_val()
+    }
+
+    pub fn from_module_public(module:&str,cha:&str) -> Self {
+        let c_module = std::ffi::CString::new(module).expect("Failed to create CString");
+        let c_cha = std::ffi::CString::new(cha).expect("Failed to create CString");
+        let scm = unsafe { raw::scm_c_public_ref(c_module.as_ptr(), c_cha.as_ptr()) };
+        SCM::new(scm)
+    }
+
+    pub fn from_module_private(module:&str,cha:&str) -> Self {
+        let c_module = std::ffi::CString::new(module).expect("Failed to create CString");
+        let c_cha = std::ffi::CString::new(cha).expect("Failed to create CString");
+        let scm = unsafe { raw::scm_c_private_ref(c_module.as_ptr(), c_cha.as_ptr()) };
+        SCM::new(scm)
     }
 
     // Type predicates

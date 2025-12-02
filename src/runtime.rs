@@ -82,4 +82,25 @@ impl Runtime {
             SCM::new(value)
         }
     }
+
+    pub fn define(&self, name: &str, value: &SCM) {
+        let c_name = CString::new(name).expect("Failed to create CString");
+        let c_name_ptr = c_name.as_ptr();
+        unsafe {
+            raw::scm_c_define(c_name_ptr, value.0);
+        }
+    }
+
+    // pub fn apply(&self, proc: &SCM) -> SCM {
+    //     unsafe {
+    //         let result = raw::scm_apply(proc.0);
+    //         SCM::new(result)
+    //     }
+    // }
+
+    // pub fn call() -> SCM {
+        
+    // }
+
+    
 }

@@ -36,8 +36,8 @@ name = "initialize"
 path = "tests/initialize.rs"
 
 [[test]]
-name = "eval"
-path = "tests/eval.rs"
+name = "runtime"
+path = "tests/runtime.rs"
 
 [[example]]
 name = "shell"
