@@ -12,5 +12,6 @@ SCM ngrs_from_bool(int x);
 int ngrs_is_null(SCM x);
 int ngrs_is_eq(SCM x, SCM y);
 int ngrs_is_symbol(SCM x);
+SCM ngrs_eol();
 
 #endif

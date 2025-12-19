@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
-use crate::raw;
+use crate::{raw, SCMOrPair};
 use std::sync::OnceLock;
 use std::ffi::{CString, c_char};
 use crate::with_guile::with_guile;
@@ -91,12 +91,20 @@ impl Runtime {
         }
     }
 
-    // pub fn apply(&self, proc: &SCM) -> SCM {
-    //     unsafe {
-    //         let result = raw::scm_apply(proc.0);
-    //         SCM::new(result)
-    //     }
-    // }
+    pub fn apply_scm(&self, proc: &SCM,args: &SCMOrPair) -> SCM {
+        unsafe {
+            let result = match args {
+                SCMOrPair::Other(scm) => {
+                    raw::scm_apply_0(proc.0, scm.0)
+                },
+                SCMOrPair::Pair(pair) => {
+                    let arglst: SCM = pair.clone().into();
+                    raw::scm_apply_0(proc.0, arglst.0)
+                },
+            };
+            SCM::new(result)
+        }
+    }
 
     // pub fn call() -> SCM {
         
