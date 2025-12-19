@@ -6,4 +6,5 @@
   Rebuiled build.rs codes, And added wrapper.c and wrapper.h let it easy to binding functions.
 
 * 0.1.3
-
+- 支持复杂类型pair及scm与pair的互转
+  Support diffcult types conversions with pari and scm.

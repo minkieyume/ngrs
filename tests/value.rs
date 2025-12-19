@@ -213,3 +213,24 @@ fn can_convert_scm_to_pair() {
         assert_eq!(second, 2);
     });
 }
+
+#[test]
+fn can_convert_string_to_symbol() {
+    with_guile(|_| {
+        let scm_str = SCM::from(String::from("my-symbol"));
+        let scm_sym = scm_str.string_to_symbol();
+        assert!(scm_sym.is_symbol());
+        assert_eq!(scm_sym.to_string(), "my-symbol");
+    });
+}
+
+#[test]
+fn can_convert_symbol_to_keyword() {
+    with_guile(|_| {
+        let scm_str = SCM::from(String::from("my-symbol"));
+        let scm_sym = scm_str.string_to_symbol();
+        let scm_key = scm_sym.symbol_to_keyword();
+        assert!(scm_key.is_keyword());
+        assert_eq!(scm_key.to_string(), "#:my-symbol");
+    });
+}
