@@ -74,12 +74,12 @@ fn can_define() {
 }
 
 #[test]
-fn can_apply_scm() {
+fn can_apply() {
     with_guile(|vm| {
         let proc = SCM::from_var_name("+");
         let lst: Pair = Pair::new(SCM::from(1),
             SCM::from(Pair::new(SCM::from(2), SCM::from(Pair::new(SCM::from(3), SCM::eol())))));
-        let result:i32 = vm.apply_scm(&proc, &SCMOrPair::Pair(lst)).try_into().unwrap();
+        let result:i32 = vm.apply(&proc, &SCMOrPair::Pair(lst)).try_into().unwrap();
         assert_eq!(result, 6);
     });
 }

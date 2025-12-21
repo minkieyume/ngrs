@@ -3,6 +3,7 @@
 use ngrs::*;
 use std::sync::Once;
 use num_complex::Complex;
+use std::ffi::c_void;
 
 static INIT: Once = Once::new();
 
@@ -232,5 +233,38 @@ fn can_convert_symbol_to_keyword() {
         let scm_key = scm_sym.symbol_to_keyword();
         assert!(scm_key.is_keyword());
         assert_eq!(scm_key.to_string(), "#:my-symbol");
+    });
+}
+
+#[test]
+fn can_make_procedure_0() {
+    with_guile(|vm| {
+        scm_fn! {
+            fn scm_hello_test() -> SCM {
+                println!("Hello from Rust procedure!");
+                SCM::from(0)
+            }
+        }
+        let gsubr = make_gsubr("scm_hello_test",0,0,false,scm_hello_test as *const () as *mut c_void);
+        let result:i32 = vm.apply(&gsubr, &SCMOrPair::Other(SCM::eol())).try_into().unwrap();
+        assert_eq!(result, 0);
+    });
+}
+
+#[test]
+fn can_make_procedure_1() {
+    with_guile(|vm| {
+        scm_fn! {
+            fn scm_hello_test(scm1:SCM) -> SCM {
+                println!("Hello from Rust procedure!");
+                let val:i32 = scm1.try_into().unwrap();
+                SCM::from(val - 1)
+            }
+        }
+        let gsubr = make_gsubr("scm_hello_test",1,0,false,scm_hello_test as *const () as *mut c_void);
+        let result:i32 = vm.apply(&gsubr,
+            &SCMOrPair::Pair(Pair::new(SCM::from(1),SCM::eol())))
+            .try_into().unwrap();
+        assert_eq!(result, 0);
     });
 }

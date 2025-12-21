@@ -4,10 +4,12 @@ pub mod number;
 pub mod str;
 pub mod bool;
 pub mod complex_types;
+pub mod procedure;
 
 use crate::raw;
 
 pub use crate::complex_types::*;
+pub use procedure::*;
 
 #[derive(Debug, Clone)]
 pub struct SCM (pub raw::SCM);

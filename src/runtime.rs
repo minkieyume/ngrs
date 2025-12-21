@@ -91,7 +91,7 @@ impl Runtime {
         }
     }
 
-    pub fn apply_scm(&self, proc: &SCM,args: &SCMOrPair) -> SCM {
+    pub fn apply(&self, proc: &SCM,args: &SCMOrPair) -> SCM {
         unsafe {
             let result = match args {
                 SCMOrPair::Other(scm) => {
@@ -104,11 +104,5 @@ impl Runtime {
             };
             SCM::new(result)
         }
-    }
-
-    // pub fn call() -> SCM {
-        
-    // }
-
-    
+    }    
 }
