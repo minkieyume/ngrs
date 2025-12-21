@@ -1,3 +1,5 @@
+use std::result;
+
 use crate::raw;
 use crate::SCM;
 
@@ -128,3 +130,15 @@ impl From<SCMOrPair> for SCM {
     }
 }
 
+impl From<&[SCM]> for Pair {
+    fn from(slice: &[SCM]) -> Pair {
+        let mut result:Option<Pair> = None;
+        for scm in slice.iter().rev() {
+            result = match result {
+                Some(accumulated_pair) => Some(Pair::new(scm.clone(), SCM::from(accumulated_pair))),
+                None => Some(Pair::new(scm.clone(), SCM::eol())),
+            };
+        };
+        result.unwrap_or(Pair::new(SCM::eol(), SCM::eol()))
+    }
+}

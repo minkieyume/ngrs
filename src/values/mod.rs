@@ -34,6 +34,11 @@ impl SCM {
         SCM::new(scm)
     }
 
+    pub fn list(lst:&[SCM]) -> Self {
+        let pair:Pair = lst.into();
+        pair.into()
+    }
+
     pub fn lookup_var(cha:&str) -> Self {
         let c_str = std::ffi::CString::new(cha).expect("Failed to create CString");
         let scm = unsafe { raw::scm_c_lookup(c_str.as_ptr()) };
