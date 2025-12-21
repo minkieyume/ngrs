@@ -13,5 +13,8 @@ int ngrs_is_null(SCM x);
 int ngrs_is_eq(SCM x, SCM y);
 int ngrs_is_symbol(SCM x);
 SCM ngrs_eol();
+SCM ngrs_unspecified();
+SCM ngrs_undefined();
+int ngrs_unbound(SCM x);
 
 #endif

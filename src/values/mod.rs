@@ -24,6 +24,16 @@ impl SCM {
         SCM::new(scm)
     }
 
+    pub fn undefined() -> Self {
+        let scm = unsafe { raw::ngrs_undefined() };
+        SCM::new(scm)
+    }
+
+    pub fn unspecified() -> Self {
+        let scm = unsafe { raw::ngrs_unspecified() };
+        SCM::new(scm)
+    }
+
     pub fn lookup_var(cha:&str) -> Self {
         let c_str = std::ffi::CString::new(cha).expect("Failed to create CString");
         let scm = unsafe { raw::scm_c_lookup(c_str.as_ptr()) };
@@ -133,6 +143,10 @@ impl SCM {
 
     pub fn is_symbol(&self) -> bool {
         unsafe { raw::ngrs_is_symbol(self.0) != 0 }
+    }
+
+    pub fn is_unbound(&self) -> bool {
+        unsafe { raw::ngrs_unbound(self.0) != 0 }
     }
     
     /// Convert a string SCM to a symbol SCM.
