@@ -17,6 +17,51 @@ pub fn make_gsubr(name: &str,req:i32,opt:i32,rest:bool,fcn:*mut c_void) -> SCM {
     }
 }
 
+pub fn define_gsubr(name: &str,req:i32,opt:i32,rest:bool,fcn:*mut c_void) {
+    let arg_name = CString::new(name).expect("Failed to create CString");
+    unsafe {
+        raw::scm_c_define_gsubr(
+            arg_name.as_ptr(),
+            req,
+            opt,
+            if rest {1} else {0},
+            fcn,
+        );
+    }
+}
+
+#[macro_export]
+macro_rules! make_procedure {
+    ( $name:expr, $req:expr, $opt:expr, $rest:expr, $fcn:expr ) => {
+        {
+            $crate::procedure::make_gsubr($name, $req, $opt, $rest, $fcn as *const () as *mut c_void)
+        }
+    };
+    
+    (fn $name:ident() -> SCM $body:block) => {
+        {
+            scm_fn! { fn $name() -> SCM $body }
+            make_procedure!(stringify!($name), 0, 0, false, $name)
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! define_procedure {
+    ( $name:expr, $req:expr, $opt:expr, $rest:expr, $fcn:expr ) => {
+        {
+            $crate::procedure::define_gsubr($name, $req, $opt, $rest, $fcn as *const () as *mut c_void)
+        }
+    };
+    
+    (fn $name:ident() -> SCM $body:block) => {
+        {
+            scm_fn! { fn $name() -> SCM $body }
+            define_procedure!(stringify!($name), 0, 0, false, $name)
+        }
+    };
+}
+
 #[macro_export]
 macro_rules! scm_fn {
     // 匹配：函数名, 参数名, 函数体

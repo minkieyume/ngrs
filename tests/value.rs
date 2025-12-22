@@ -239,13 +239,12 @@ fn can_convert_symbol_to_keyword() {
 #[test]
 fn can_make_procedure_0() {
     with_guile(|vm| {
-        scm_fn! {
+        let gsubr = make_procedure! {
             fn scm_hello_test() -> SCM {
                 println!("Hello from Rust procedure!");
                 SCM::from(0)
             }
-        }
-        let gsubr = make_gsubr("scm_hello_test",0,0,false,scm_hello_test as *const () as *mut c_void);
+        };
         let result:i32 = vm.apply(&gsubr, &SCMOrPair::Other(SCM::eol())).try_into().unwrap();
         assert_eq!(result, 0);
     });
@@ -266,5 +265,20 @@ fn can_make_procedure_1() {
             &SCMOrPair::Pair(Pair::new(SCM::from(1),SCM::eol())))
             .try_into().unwrap();
         assert_eq!(result, 0);
+    });
+}
+
+#[test]
+fn can_define_procedure_0() {
+    with_guile(|vm| {
+        define_procedure! {
+            fn scm_hello_test() -> SCM {
+                println!("Hello from Defined Rust procedure!");
+                SCM::from(42)
+            }
+        };
+        let proc = SCM::from_var_name("scm_hello_test");
+        let result:i32 = vm.apply(&proc, &SCMOrPair::Other(SCM::eol())).try_into().unwrap();
+        assert_eq!(result, 42);
     });
 }
