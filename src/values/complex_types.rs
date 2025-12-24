@@ -287,7 +287,11 @@ impl<F:TryFrom<SCM> + Eq + Hash,R:TryFrom<SCM>> TryFrom<SCM> for HashMap<F,R> {
             let alist_pair = Pair::try_from(alist_scm)?;
             let result:HashMap<F,R> = HashMap::<F,R>::try_from(alist_pair)?;
             Ok(result)            
-        } else {
+        } else if scm.is_list() {
+            let pair = Pair::try_from(scm)?;
+            let result:HashMap<F,R> = HashMap::<F,R>::try_from(pair)?;
+            Ok(result)
+        }else {
             Err("Wrong Type: SCM is not a hash table.".to_string())
         }
     }
