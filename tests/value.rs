@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
 use ngrs::*;
 use std::sync::Once;
+use std::collections::HashMap;
 use num_complex::Complex;
 use std::ffi::c_void;
 
@@ -280,5 +281,89 @@ fn can_define_procedure_0() {
         let proc = SCM::from_var_name("scm_hello_test");
         let result:i32 = vm.apply(&proc, &SCMOrPair::Other(SCM::eol())).try_into().unwrap();
         assert_eq!(result, 42);
+    });
+}
+
+#[test]
+fn can_make_vector() {
+    with_guile(|_| {
+        let vec:Vec<i32> = vec![1,2,3,4,5];
+        let scm_vector = SCM::from(&vec[..]);
+        assert!(scm_vector.is_vector());
+    });
+}
+
+#[test]
+fn can_make_scm_vector() {
+    with_guile(|_| {
+        let vec:Vec<i32> = vec![1,2,3,4,5];
+        let scm_vec:Vec<SCM> = vec.iter().map(|&x| SCM::from(x)).collect();
+        let scm_vector = SCM::from(&scm_vec[..]);
+        assert!(scm_vector.is_vector());
+    });
+}
+
+#[test]
+fn can_convert_vector() {
+    with_guile(|_| {
+        let vec:Vec<i32> = vec![1,2,3,4,5];
+        let scm_vector = SCM::from(&vec[..]);
+        let result:Result<Vec<i32>,String> = scm_vector.try_into();
+        assert_eq!(result, Ok(vec));
+    });
+}
+
+#[test]
+fn can_convert_vector_for_scm() {
+    with_guile(|_| {
+        let vec:Vec<i32> = vec![10,20,30,40,50];
+        let vec_scm:Vec<SCM> = vec.iter().map(|&x| SCM::from(x)).collect();
+        let scm_vector = SCM::from(&vec[..]);
+        let result:Result<Vec<SCM>,String> = scm_vector.try_into();
+        assert_eq!(result, Ok(vec_scm));
+    });
+}
+
+#[test]
+fn can_convert_list_to_vec() {
+    with_guile(|_| {
+        let pair = Pair::from(vec![1,2,3,4,5]);
+        let scm_list = SCM::from(pair);
+        let result:Result<Vec<i32>,String> = scm_list.try_into();
+        assert_eq!(result, Ok(vec![1,2,3,4,5]));
+    });
+}
+
+#[test]
+fn can_make_hash_map() {
+    with_guile(|_| {
+        let mut map = HashMap::new();
+        map.insert(String::from("one"), 1);
+        map.insert(String::from("two"), 2);
+        let scm_hash_map = SCM::from(map);
+        assert!(scm_hash_map.is_hash_table());
+    });
+}
+
+#[test]
+fn can_make_alist() {
+    with_guile(|_| {
+        let mut map = HashMap::new();
+        map.insert(String::from("one"), 1);
+        map.insert(String::from("two"), 2);
+        let scm_alist = SCM::alist(map);
+        assert!(scm_alist.is_list());
+    });
+}
+
+#[test]
+fn can_convert_hash_map() {
+    with_guile(|_| {
+        let mut map = HashMap::new();
+        map.insert(String::from("one"), 1);
+        map.insert(String::from("two"), 2);
+        let scm_hash_map = SCM::from(map.clone());
+        let result:Result<HashMap<String,i32>,String> = scm_hash_map.try_into();
+        assert_eq!(result, Ok(map));
     });
 }

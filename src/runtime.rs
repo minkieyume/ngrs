@@ -104,5 +104,5 @@ impl Runtime {
             };
             SCM::new(result)
         }
-    }    
+    }
 }

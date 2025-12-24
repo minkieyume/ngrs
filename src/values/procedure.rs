@@ -153,4 +153,134 @@ macro_rules! scm_fn {
                 result.0
             }
     };
+    (fn $name:ident($arg1:ident:SCM, $arg2:ident:SCM, $arg3:ident:SCM, $arg4:ident:SCM, $arg5:ident:SCM,$arg6:ident:SCM) -> SCM $body:block) => {
+        pub extern "C" fn $name(__scm_internal_scm_raw_arg1: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg2: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg3: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg4: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg5: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg6: $crate::raw::SCM,) -> $crate::raw::SCM {
+            
+                let $arg1 = $crate::SCM::new(__scm_internal_scm_raw_arg1);
+                let $arg2 = $crate::SCM::new(__scm_internal_scm_raw_arg2);
+                let $arg3 = $crate::SCM::new(__scm_internal_scm_raw_arg3);
+                let $arg4 = $crate::SCM::new(__scm_internal_scm_raw_arg4);
+                let $arg5 = $crate::SCM::new(__scm_internal_scm_raw_arg5);
+                let $arg6 = $crate::SCM::new(__scm_internal_scm_raw_arg6);
+                        
+                // 2. 执行用户代码
+                let result: $crate::SCM = $body;
+            
+                // 3. 转换回 raw::SCM
+                result.0
+            }
+    };
+    (fn $name:ident($arg1:ident:SCM, $arg2:ident:SCM, $arg3:ident:SCM, $arg4:ident:SCM, $arg5:ident:SCM,$arg6:ident:SCM,$arg7:ident:SCM) -> SCM $body:block) => {
+        pub extern "C" fn $name(__scm_internal_scm_raw_arg1: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg2: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg3: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg4: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg5: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg6: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg7: $crate::raw::SCM,) -> $crate::raw::SCM {
+            
+                let $arg1 = $crate::SCM::new(__scm_internal_scm_raw_arg1);
+                let $arg2 = $crate::SCM::new(__scm_internal_scm_raw_arg2);
+                let $arg3 = $crate::SCM::new(__scm_internal_scm_raw_arg3);
+                let $arg4 = $crate::SCM::new(__scm_internal_scm_raw_arg4);
+                let $arg5 = $crate::SCM::new(__scm_internal_scm_raw_arg5);
+                let $arg6 = $crate::SCM::new(__scm_internal_scm_raw_arg6);
+                let $arg7 = $crate::SCM::new(__scm_internal_scm_raw_arg7);
+                        
+                // 2. 执行用户代码
+                let result: $crate::SCM = $body;
+            
+                // 3. 转换回 raw::SCM
+                result.0
+            }
+    };
+    (fn $name:ident($arg1:ident:SCM, $arg2:ident:SCM, $arg3:ident:SCM, $arg4:ident:SCM, $arg5:ident:SCM,$arg6:ident:SCM,$arg7:ident:SCM,$arg8:ident:SCM) -> SCM $body:block) => {
+        pub extern "C" fn $name(__scm_internal_scm_raw_arg1: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg2: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg3: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg4: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg5: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg6: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg7: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg8: $crate::raw::SCM,) -> $crate::raw::SCM {
+            
+                let $arg1 = $crate::SCM::new(__scm_internal_scm_raw_arg1);
+                let $arg2 = $crate::SCM::new(__scm_internal_scm_raw_arg2);
+                let $arg3 = $crate::SCM::new(__scm_internal_scm_raw_arg3);
+                let $arg4 = $crate::SCM::new(__scm_internal_scm_raw_arg4);
+                let $arg5 = $crate::SCM::new(__scm_internal_scm_raw_arg5);
+                let $arg6 = $crate::SCM::new(__scm_internal_scm_raw_arg6);
+                let $arg7 = $crate::SCM::new(__scm_internal_scm_raw_arg7);
+                let $arg8 = $crate::SCM::new(__scm_internal_scm_raw_arg8);
+                        
+                // 2. 执行用户代码
+                let result: $crate::SCM = $body;
+            
+                // 3. 转换回 raw::SCM
+                result.0
+            }
+    };
+    (fn $name:ident($arg1:ident:SCM, $arg2:ident:SCM, $arg3:ident:SCM, $arg4:ident:SCM, $arg5:ident:SCM,$arg6:ident:SCM,$arg7:ident:SCM,$arg8:ident:SCM,$arg9:ident:SCM) -> SCM $body:block) => {
+        pub extern "C" fn $name(__scm_internal_scm_raw_arg1: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg2: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg3: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg4: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg5: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg6: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg7: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg8: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg9: $crate::raw::SCM,) -> $crate::raw::SCM {
+            
+                let $arg1 = $crate::SCM::new(__scm_internal_scm_raw_arg1);
+                let $arg2 = $crate::SCM::new(__scm_internal_scm_raw_arg2);
+                let $arg3 = $crate::SCM::new(__scm_internal_scm_raw_arg3);
+                let $arg4 = $crate::SCM::new(__scm_internal_scm_raw_arg4);
+                let $arg5 = $crate::SCM::new(__scm_internal_scm_raw_arg5);
+                let $arg6 = $crate::SCM::new(__scm_internal_scm_raw_arg6);
+                let $arg7 = $crate::SCM::new(__scm_internal_scm_raw_arg7);
+                let $arg8 = $crate::SCM::new(__scm_internal_scm_raw_arg8);
+                let $arg9 = $crate::SCM::new(__scm_internal_scm_raw_arg9);
+                        
+                // 2. 执行用户代码
+                let result: $crate::SCM = $body;
+            
+                // 3. 转换回 raw::SCM
+                result.0
+            }
+    };
+    (fn $name:ident($arg1:ident:SCM, $arg2:ident:SCM, $arg3:ident:SCM, $arg4:ident:SCM, $arg5:ident:SCM,$arg6:ident:SCM,$arg7:ident:SCM,$arg8:ident:SCM,$arg9:ident:SCM) -> SCM $body:block) => {
+        pub extern "C" fn $name(__scm_internal_scm_raw_arg1: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg2: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg3: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg4: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg5: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg6: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg7: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg8: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg9: $crate::raw::SCM,
+            __scm_internal_scm_raw_arg10: $crate::raw::SCM,) -> $crate::raw::SCM {
+            
+                let $arg1 = $crate::SCM::new(__scm_internal_scm_raw_arg1);
+                let $arg2 = $crate::SCM::new(__scm_internal_scm_raw_arg2);
+                let $arg3 = $crate::SCM::new(__scm_internal_scm_raw_arg3);
+                let $arg4 = $crate::SCM::new(__scm_internal_scm_raw_arg4);
+                let $arg5 = $crate::SCM::new(__scm_internal_scm_raw_arg5);
+                let $arg6 = $crate::SCM::new(__scm_internal_scm_raw_arg6);
+                let $arg7 = $crate::SCM::new(__scm_internal_scm_raw_arg7);
+                let $arg8 = $crate::SCM::new(__scm_internal_scm_raw_arg8);
+                let $arg9 = $crate::SCM::new(__scm_internal_scm_raw_arg9);
+                let $arg10 = $crate::SCM::new(__scm_internal_scm_raw_arg10);
+                        
+                // 2. 执行用户代码
+                let result: $crate::SCM = $body;
+            
+                // 3. 转换回 raw::SCM
+                result.0
+            }
+    };
 }

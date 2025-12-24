@@ -6,6 +6,8 @@ pub mod bool;
 pub mod complex_types;
 pub mod procedure;
 
+use std::collections::HashMap;
+
 use crate::raw;
 
 pub use crate::complex_types::*;
@@ -34,7 +36,12 @@ impl SCM {
         SCM::new(scm)
     }
 
-    pub fn list(lst:&[SCM]) -> Self {
+    pub fn list<F:Into<SCM> + Clone> (lst:&[F]) -> Self {
+        let pair:Pair = lst.into();
+        pair.into()
+    }
+
+    pub fn alist<F:Into<SCM>,R:Into<SCM>> (lst:HashMap<F,R>) -> Self {
         let pair:Pair = lst.into();
         pair.into()
     }
@@ -198,8 +205,62 @@ impl SCM {
         SCM::new(scm)
     }
 
+    /// Convert a list SCM to a vector SCM.
+    /// 将一个列表 SCM 转换为一个向量 SCM。
+    /// Only call this function when you are sure that the SCM is a list.
+    /// 仅在你确定 SCM 是一个列表时调用此函数。
+    pub fn list_to_vector(&self) -> SCM {
+        assert!(self.is_list(), "SCM value is not a list");
+        let scm = unsafe { raw::scm_vector(self.0) };
+        SCM::new(scm)
+    }
+
+    /// Convert a vector SCM to a list SCM.
+    /// 将一个向量 SCM 转换为一个列表 SCM。
+    /// Only call this function when you are sure that the SCM is a vector.
+    /// 仅在你确定 SCM 是一个向量时调用此函数。
+    pub fn vector_to_list(&self) -> SCM {
+        assert!(self.is_vector(), "SCM value is not a vector");
+        let scm = unsafe { raw::scm_vector_to_list(self.0) };
+        SCM::new(scm)
+    }
+
+    /// Convert a hash table SCM to an association list SCM.
+    /// 将一个哈希表 SCM 转换为一个关联列表 SCM。
+    /// Only call this function when you are sure that the SCM is a hash table.
+    /// 仅在你确定 SCM 是一个哈希表时调用此函数。
+    pub fn hash_map_to_alist(&self) -> SCM {
+        assert!(self.is_hash_table(), "SCM value is not a hash table");
+        let scm = unsafe { raw::scm_hash_map_to_list(SCM::from_var_name("cons").0,self.0) };
+        SCM::new(scm)
+    }
+
+    /// Convert a hash table SCM to a list SCM using a custom procedure.
+    /// 使用自定义过程将哈希表 SCM 转换为列表 SCM。
+    /// Only call this function when you are sure that the SCM is a hash table.
+    /// 仅在你确定 SCM 是一个哈希表时调用此函数。
+    pub fn hash_map_to_list(&self,proc:SCM) -> SCM {
+        assert!(self.is_hash_table(), "SCM value is not a hash table");
+        let scm = unsafe { raw::scm_hash_map_to_list(proc.0,self.0) };
+        SCM::new(scm)
+    }
+
+    /// Apply a procedure to each key-value pair in the hash table SCM.
+    /// 对哈希表 SCM 中的每个键值对应用一个过程。
+    /// Only call this function when you are sure that the SCM is a hash table.
+    /// 仅在你确定 SCM 是一个哈希表时调用此函数。
+    pub fn hash_map_for_each(&self,proc:SCM) {
+        assert!(self.is_hash_table(), "SCM value is not a hash table");
+        unsafe { raw::scm_hash_for_each(proc.0,self.0) };
+    }
+
     pub fn is_pair(&self) -> bool {
         unsafe { raw::scm_is_pair(self.0) != 0 }
+    }
+
+    pub fn is_list(&self) -> bool {
+        let list_p = SCM::new(unsafe { raw::scm_list_p(self.0) });
+        list_p.is_true()
     }
 
     pub fn is_null(&self) -> bool {
@@ -231,6 +292,11 @@ impl SCM {
     pub fn is_variable(&self) -> bool {
         let variable_p = SCM::new(unsafe { raw::scm_variable_p(self.0) });
         variable_p.is_true()
+    }
+
+    pub fn is_hash_table(&self) -> bool {
+        let hash_table_p = SCM::new(unsafe { raw::scm_hash_table_p(self.0) });
+        hash_table_p.is_true()
     }
 }
 
