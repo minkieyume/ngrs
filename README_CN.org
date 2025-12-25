@@ -12,10 +12,11 @@ NGRS 是 GNU Guile Scheme 的新 Rust 绑定。
 -  为基础值提供绑定和转换。
 -  完成eval(eval_expr)、eval_string、eval_file(load)、apply(apply_scm) 、apply(call_0~n)、define、
 -  将复合值 List、Vector、HashMap 和特殊基础值 procedure、Symbol、Keywords 做对应的安全类封装（或至少提供一个转成rust类型的方法）。
-- 添加模块操作，方便在Rust中为Guile写交互模块。
+-  添加模块操作，方便在Rust中为Guile写交互模块。
 - 写个将Rust的结构体转换为Guile外部类型的绑定。
 - 写个简单的Guile调用Rust的FFI接口。
 - 为Rust的常用Trait定义GOOPS的等价类型。
+- 为Rust实现guile异常处理的转换，可将Rust写的方法的异常捕获转成guile方法的处理。（可选，高难度）
   
 * 快速开始
 ** 使用Ngrs
