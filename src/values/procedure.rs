@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT OR Apache-2.0
+// SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
 use crate::SCM;
 use std::ffi::{c_void, CString};
 
@@ -34,6 +36,7 @@ pub fn define_gsubr(name: &str,req:i32,opt:i32,rest:bool,fcn:*mut c_void) {
 macro_rules! make_procedure {
     ( $name:expr, $req:expr, $opt:expr, $rest:expr, $fcn:expr ) => {
         {
+            use std::ffi::c_void;
             $crate::procedure::make_gsubr($name, $req, $opt, $rest, $fcn as *const () as *mut c_void)
         }
     };
@@ -50,6 +53,7 @@ macro_rules! make_procedure {
 macro_rules! define_procedure {
     ( $name:expr, $req:expr, $opt:expr, $rest:expr, $fcn:expr ) => {
         {
+            use std::ffi::c_void;
             $crate::procedure::define_gsubr($name, $req, $opt, $rest, $fcn as *const () as *mut c_void)
         }
     };

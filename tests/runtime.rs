@@ -83,3 +83,24 @@ fn can_apply() {
         assert_eq!(result, 6);
     });
 }
+
+#[test]
+fn can_define_module() {
+    with_guile(|vm| {
+        vm.define_module("chiko plustwo", |mvm| {
+            scm_fn! {
+                fn scm_hello_test(scm1:SCM,scm2:SCM) -> SCM {
+                    println!("Hello from Rust procedure!");
+                    let val1:i32 = scm1.try_into().unwrap();
+                    let val2:i32 = scm2.try_into().unwrap();
+                    SCM::from(val1 + val2)
+                }
+            }
+            define_procedure!("plus-two", 2,0,false, scm_hello_test);
+            mvm.module_export("plus-two");
+        });
+       let proc = SCM::from_module_public("chiko plustwo", "plus-two");
+        let result:i32 = vm.apply(&proc, &Pair::from(vec![3_i32, 4_i32]).into()).try_into().unwrap();
+        assert_eq!(result, 7);
+    });
+}

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT OR Apache-2.0
+// SPDX-FileCopyrightText: 2024 MinkieYume <minkieyume@yumieko.com>
 use std::collections::HashMap;
 use std::hash::Hash;
 
@@ -128,6 +130,23 @@ impl From<SCMOrPair> for SCM {
         match scm_or_pair {
             SCMOrPair::Pair(pair) => SCM::from(pair),
             SCMOrPair::Other(scm) => scm,
+        }
+    }
+}
+
+impl From<Pair> for SCMOrPair {
+    fn from(pair: Pair) -> SCMOrPair {
+        SCMOrPair::Pair(pair.clone())
+    }
+}
+
+impl TryFrom<SCMOrPair> for Pair {
+    type Error = String;
+
+    fn try_from(scm_or_pair: SCMOrPair) -> Result<Self, Self::Error> {
+        match scm_or_pair {
+            SCMOrPair::Pair(pair) => Ok(pair),
+            SCMOrPair::Other(scm) => Pair::try_from(scm),
         }
     }
 }
