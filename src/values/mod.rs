@@ -5,6 +5,7 @@ pub mod str;
 pub mod bool;
 pub mod complex_types;
 pub mod procedure;
+pub mod foreign;
 
 use std::collections::HashMap;
 
@@ -12,6 +13,7 @@ use crate::raw;
 
 pub use crate::complex_types::*;
 pub use procedure::*;
+pub use foreign::*;
 
 #[derive(Debug, Clone)]
 pub struct SCM (pub raw::SCM);
@@ -297,6 +299,22 @@ impl SCM {
     pub fn is_hash_table(&self) -> bool {
         let hash_table_p = SCM::new(unsafe { raw::scm_hash_table_p(self.0) });
         hash_table_p.is_true()
+    }
+
+    pub fn is_struct(&self) -> bool {
+        let struct_p = SCM::new(unsafe { raw::scm_struct_p(self.0) });
+        struct_p.is_true()
+    }
+
+    pub fn is_struct_vtable(&self) -> bool {
+        let struct_vtable_p = SCM::new(unsafe { raw::scm_struct_vtable_p(self.0) });
+        struct_vtable_p.is_true()
+    }
+
+    pub fn struct_vtable(&self) -> SCM {
+        assert!(self.is_struct(), "SCM value is not struct");
+        let scm = unsafe { raw::scm_struct_vtable(self.0) };
+        SCM::new(scm)
     }
 }
 

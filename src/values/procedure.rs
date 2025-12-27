@@ -19,6 +19,7 @@ pub fn make_gsubr(name: &str,req:i32,opt:i32,rest:bool,fcn:*mut c_void) -> SCM {
     }
 }
 
+/// Warning: This have to process in with_guile context.
 pub fn define_gsubr(name: &str,req:i32,opt:i32,rest:bool,fcn:*mut c_void) {
     let arg_name = CString::new(name).expect("Failed to create CString");
     unsafe {
@@ -49,6 +50,7 @@ macro_rules! make_procedure {
     };
 }
 
+/// Warning: This have to process in with_guile context.
 #[macro_export]
 macro_rules! define_procedure {
     ( $name:expr, $req:expr, $opt:expr, $rest:expr, $fcn:expr ) => {

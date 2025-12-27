@@ -367,3 +367,75 @@ fn can_convert_hash_map() {
         assert_eq!(result, Ok(map));
     });
 }
+
+#[test]
+fn can_make_foreign_type() {
+    struct MyForeignType {
+        _value: i32,
+    }
+
+    impl ForeignType for MyForeignType {
+        fn type_name(&self) -> String {
+            "my-foreign-type".to_string()
+        }
+
+        fn slots(&self) -> Vec<String> {
+            vec!["value".to_string()]
+        }
+    }
+
+    with_guile(|_| {
+        let foreign = MyForeignType { _value: 42 };
+        let scm_foreign = foreign.new_type();
+        assert!(scm_foreign.is_struct());
+    });
+}
+
+#[test]
+fn can_make_foreign_object() {
+    #[derive(Clone)]
+    struct MyForeignType {
+        _value: i32,
+        scm_type: Option<SCM>
+    }
+
+    impl ForeignType for MyForeignType {
+        fn type_name(&self) -> String {
+            "my-foreign-type".to_string()
+        }
+
+        fn slots(&self) -> Vec<String> {
+            vec!["value".to_string()]
+        }
+
+        fn slot_vals(&self) -> Vec<*mut c_void> {
+            vec![&self._value as *const i32 as *mut c_void]
+        }
+
+        fn type_of(&self) -> SCM {
+            if let Some(scm_type) = &self.scm_type {
+                scm_type.clone()
+            } else {
+                self.new_type()
+            }
+        }
+    }
+
+    impl MyForeignType {
+        fn new(value: i32) -> Self {
+            let mut foreign = MyForeignType {
+                _value: value,
+                scm_type: None,
+            };
+            foreign.scm_type = Some(foreign.type_of());
+            foreign
+        }
+    }
+
+    with_guile(|_| {
+        let foreign = MyForeignType::new(42);
+        let scm_foreign:SCM = foreign.clone().into();
+        assert!(scm_foreign.is_struct());
+        assert_eq!(scm_foreign.struct_vtable(), foreign.type_of());
+    });
+}
