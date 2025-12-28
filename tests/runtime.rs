@@ -99,7 +99,7 @@ fn can_define_module() {
             define_procedure!("plus-two", 2,0,false, scm_hello_test);
             mvm.module_export("plus-two");
         });
-       let proc = SCM::from_module_public("chiko plustwo", "plus-two");
+        let proc = SCM::from_module_public("chiko plustwo", "plus-two");
         let result:i32 = vm.apply(&proc, &Pair::from(vec![3_i32, 4_i32]).into()).try_into().unwrap();
         assert_eq!(result, 7);
     });

@@ -4,6 +4,7 @@ pub mod raw;
 mod values;
 mod with_guile;
 mod runtime;
+mod ffi;
 
 pub use values::*;
 pub use with_guile::*;
