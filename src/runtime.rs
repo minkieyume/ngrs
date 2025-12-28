@@ -112,7 +112,11 @@ impl Runtime {
             SCM::new(result)
         }
     }
-    
+
+    /// Define a Guile module with a Rust callback.
+    /// The callback will be called when the module is loaded.
+    /// 定义一个Guile模块，并提供一个Rust回调函数。
+    /// 当模块被加载时，回调函数将被调用。
     pub fn define_module<F, R>(&self,name:&str,f: F)
     where F: FnOnce(&Runtime) -> R, {
         let mut data: ModuleData<F, R> = ModuleData {
@@ -139,6 +143,8 @@ impl Runtime {
         data.result.expect("callback should have set result");
     }
 
+    /// Resolve a Guile module by name.
+    /// 根据名称解析Guile模块。
     pub fn resolve_module(&self, name:&str) -> SCM{
         let c_name = CString::new(name).expect("Failed to create CString");
         let raw_scm = unsafe {
@@ -147,6 +153,8 @@ impl Runtime {
         SCM::new(raw_scm)
     }
 
+    /// Use a Guile module by name.
+    /// 根据名称使用Guile模块。
     pub fn use_module(&self, name:&str) {
         let c_name = CString::new(name).expect("Failed to create CString");
         unsafe {
@@ -154,6 +162,8 @@ impl Runtime {
         }
     }
 
+    /// Export symbols from a Guile module by name.
+    /// 从Guile模块中导出符号。
     pub fn module_export(&self, name:&str) {
         let c_name = CString::new(name).expect("Failed to create CString");
         unsafe {
